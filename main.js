@@ -19,6 +19,13 @@ const color = {
   blue: "#036FAF",
 }
 
+// 繪製圓形
+ctx.fillCircle = function(x,y,r) {
+  this.beginPath()
+  this.arc(x,y,r,0,PI2)
+  this.fill()
+}
+
 
 /**
  * 每次開始繪製前，先定義要繪製的起始點與範圍。
@@ -164,21 +171,91 @@ function leftCenterBlock() {
 }
 
 function centerCenterBlock() {
+  ctx.beginPath()
+  ctx.moveTo(0,0)
+  let angle1 = (time%100) / 100 * PI2
+  let angle2 = (time%50) / 50 * PI2
 
+  ctx.fillStyle = color.red
+  ctx.arc(0,0,80,angle1,angle2)
+  ctx.fill()
+  ctx.fillStyle = color.yellow
+  ctx.fillCircle(60,60,30)
 }
 
 function rightCenterBlock() {
+  ctx.fillStyle = color.white
+  ctx.fillCircle(0,0,80)
 
+  ctx.rotate(time/10)
+  ctx.fillStyle = color.red
+  ctx.fillCircle(-30,0,20)
+
+  ctx.rotate(time/10)
+  ctx.fillStyle = color.yellow
+  ctx.fillCircle(40,0,50)
 }
 
 function leftBottomBlock() {
+  ctx.rotate(time/100)
+  ctx.scale((stime%5)/5,(stime%5)/5)
+  for(let i = 0; i < 8; i++) {
+    ctx.rotate(PI2 / 8)
+    ctx.fillStyle = color.white
+    let r = 16
+    if ((stime+i)%4<2) r = 10
+    ctx.fillCircle(60,0,r)
 
+    ctx.fillStyle = color.blue
+    ctx.fillCircle(30,5,5)
+  }
 }
 
 function centerBottomBlock() {
+  ctx.translate(-80,-100)
+  ctx.fillStyle = color.yellow
+  ctx.fillRect(0,time%200,40,time%200)
 
+  ctx.translate(40,40)
+    ctx.fillStyle = color.red
+    ctx.fillRect(0,0,120,80)
+    ctx.fillStyle = color.white
+    ctx.fillCircle(0,40,stime%20)
+    ctx.fillCircle(70,40,stime%10)
+    ctx.translate(70,80)
+    ctx.fillRect(0,0,50,80)
 }
 
 function rightBottomBlock() {
+  // 左測白色三角形
+  ctx.beginPath()
+  ctx.moveTo(-100,-100)
+  ctx.lineTo(0,-100)
+  ctx.lineTo(-100,100)
+  ctx.closePath()
+  ctx.fillStyle = color.white
+  ctx.fill()
 
+  ctx.rotate(PI)
+
+  // 紅色三角形
+  ctx.save()
+    ctx.translate(time%100, 0)
+    ctx.beginPath()
+    ctx.moveTo(-100,-100)
+    ctx.lineTo(0,-100)
+    ctx.lineTo(-100,100)
+    ctx.closePath()
+    ctx.fillStyle = color.red
+    ctx.fill()
+  ctx.restore()
+
+  // 右側白色三角形
+  ctx.beginPath()
+  ctx.moveTo(-100,-100)
+  ctx.lineTo(0,-100)
+  ctx.lineTo(-100,100)
+  ctx.closePath()
+  ctx.fillStyle = color.white
+  ctx.fill()
 }
